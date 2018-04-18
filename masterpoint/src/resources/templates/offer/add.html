@@ -10,33 +10,73 @@
 <div class="container-fluid">
     <th:block th:replace="fragments/navbar"></th:block>
     <div class="row mt-4">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-10 offset-md-1">
             <h1 class="text-center">Категории</h1>
             <form th:action="@{/offer/add}" th:method="POST">
 
-                <table class="table table-bordered table-sm">
-                    <div th:each="category: ${categories}" th:object="${category}" th:remove="tag">
-                        <tr>
-                            <td rowspan="3" th:rowspan="${category.subCategories.size()} == 0 ? 1 : ${category.subCategories.size()} " th:text="${category.name}">
-                                my_db
-                            </td>
-                            <td>
-              <span th:unless="${category.subCategories.isEmpty()}"
-                    th:text=" ${category.subCategories.toArray()[0].name}">jdbc:url1</span>
-                            </td>
-                        </tr>
-                        <tr th:each="subCategory : ${category.subCategories}"
-                            th:if="${subCategoryStat.index > 0}">
-                            <td th:text="${subCategory.name}">jdbc:url1</td>
-                        </tr>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="list-group" id="list-tab" role="tablist">
+                            <a th:each="category,iter : ${categories}" th:object="${category}"
+                               class="list-group-item list-group-item-action"
+                               th:id="'list-' + ${category.getName()} + '-list'"
+                               data-toggle="list"
+                               th:href="@{'#list-' + ${category.getName()}}"
+                               role="tab"
+                               th:attr="aria-controls=${category.getName()}"
+                               th:text="${category.getName()}">Home</a>
+                        </div>
                     </div>
-                </table>
+                    <div class="col-8">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade"
+
+                                 th:each="category,iter : ${categories}" th:object="${category}"
+                                 th:id="'list-'+ ${category.getName()}"
+                                 role="tabpanel"
+                                 th:attr="aria-labelledby='list-'+ ${category.getName()} + '-list'">
+                                <table class="table table-bordered table-sm">
+                                    <thead>
+                                    <tr class="table-primary">
+                                        <th scope="col">#</th>
+                                        <th scope="col">Услуга</th>
+                                        <th scope="col"> Kоличество</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="subCategory,iter : ${category.getSubCategories()}"
+                                        th:object="${subCategory}">
+                                        <td class="align-middle" th:text="${iter.index + 1}"></td>
+                                        <td class="align-middle" th:text="${subCategory.getName()}"></td>
+                                        <td class="align-middle">
+                                            <div class="form-group form-group-rmb row" th:with="currentId=${#ids.seq('')}">
+                                                <div class="input-group">
+                                                    <input type="number" class="form-control"
+                                                           aria-label="Amount (to the nearest dollar)"
+                                                           th:field="${offer.tasks[__${currentId}__].quantity}"/>
+                                                    <div class="input-group-append">
+                                                        <span th:text="${subCategory.getCurrencyPerUnit()}" class="input-group-text"></span>
+                                                    </div>
+                                                    <div class="input-group-append">
+                                                    <input th:type="checkbox" th:field="${offer.tasks[__${currentId}__].subCategoryName}"
+                                                           th:value = "${subCategory.getName()}" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-primary">prati</button>
+
             </form>
+
         </div>
     </div>
 </div>
-
-
-</body>
-</html>
