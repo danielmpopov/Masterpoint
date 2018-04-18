@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/head :: meta"></th:block>
+    <th:block th:replace="fragments/head :: style"></th:block>
+    <th:block th:replace="fragments/head :: script"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <th:block th:replace="fragments/navbar"></th:block>
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="text-center">Категории</h1>
+            <div id="accordion">
+                <div class="card" th:each="category,iter : ${categories}" th:object="${category}">
+                    <div class="card-header" th:id="${iter.index}">
+                        <h5 class="mb-0  text-center">
+                            <button type="button" class="btn btn-link" data-toggle="collapse" aria-expanded="true"
+                                    th:attr="aria-controls='collapse'+ ${iter.index}, data-target='#collapse'+ ${iter.index}"
+                                    th:text="${category.getName()}">
+                                Категория
+                            </button>
+                        </h5>
+                    </div>
+                    <div th:id="'collapse'+ ${iter.index}" class="collapse" th:attr="aria-labelledby =${iter.index}"
+                         data-parent="#accordion">
+                        <div class="card-body">
+                            <table class="table table-bordered table-sm">
+                                <thead>
+                                <tr class="table-primary">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Услуга</th>
+                                    <th scope="col">Цена</th>
+                                    <th scope="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="subCategory,iter : ${category.getSubCategories()}"
+                                    th:object="${subCategory}">
+                                    <td class="align-middle" th:text="${iter.index + 1}"></td>
+                                    <td class="align-middle" th:text="${subCategory.getName()}"></td>
+                                    <td class="align-middle"
+                                        th:text="${!#strings.isEmpty(subCategory.getRepairWorkPrice())
+                                                ? subCategory.getRepairWorkPrice() + ' ' + subCategory.getCurrencyPerUnit()
+                                                : 'Не предлагате тази услуга'}">
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <a class="btn btn-info btn-sm"
+                                           th:if="${#strings.isEmpty(subCategory.getRepairWorkPrice())}"
+                                           data-toggle="modal" data-target="#myModal"
+                                           th:attr="data-subcategory=${subCategory.getName()},
+                                                    data-unit=${subCategory.getCurrencyPerUnit()},
+                                                    data-action='add'">Добави
+                                        </a>
+                                        <a class="btn btn-warning btn-sm"
+                                           th:if="${!#strings.isEmpty(subCategory.getRepairWorkPrice())}"
+                                           data-toggle="modal" data-target="#myModal"
+                                           th:attr="data-subcategory=${subCategory.getName()},
+                                                    data-unit=${subCategory.getCurrencyPerUnit()},
+                                                    data-action='edit',
+                                                    data-rwid=${subCategory.getRepairWorkId()},
+                                                    data-price=${subCategory.getRepairWorkPrice()}">Редактирай
+                                        </a>
+                                        <a class="btn btn-danger btn-sm"
+                                           th:if="${!#strings.isEmpty(subCategory.getRepairWorkPrice())}"
+                                           data-toggle="modal" data-target="#myModal"
+                                           th:attr="data-subcategory=${subCategory.getName()},
+                                                    data-unit=${subCategory.getCurrencyPerUnit()},
+                                                    data-action='delete',
+                                                    data-rwid=${subCategory.getRepairWorkId()},
+                                                    ">Изтрии
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">New message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="myForm" action="nothing.asp" th:method="POST" onsubmit="return myFunction(this)"
+                          th:object="${repairwork}">
+                        <div class="form-group">
+                            <label class="control-label">Input addons</label>
+                            <div class="form-group">
+                                <div class="input-group mb-3">
+                                    <input id="pricePerUnit" name="pricePerUnit" type="number" class="form-control"
+                                           aria-label="Amount (to the nearest dollar)"
+                                           th:field="*{pricePerUnit}"/>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">.00</span>
+                                    </div>
+                                </div>
+                                <p id="demo"></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
+                            <button type="submit" class="btn btn-primary action">Добави</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+</div>
+
+<script src="/js/modal.js"></script>
+</body>
+</html>

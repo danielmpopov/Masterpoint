@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/head"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <th:block th:replace="fragments/navbar"></th:block>
+    <div class="container">
+        <div class="row mt-4">
+            <div class="col-md-8 offset-md-2">
+                <h1 class="text-center" th:text="${category.getName()}"></h1>
+                <form class="mt-4" th:action="@{'/categories/delete/' + ${category.getName()}}" th:method="POST"
+                      th:object="${category}">
+                    <div class="form-group">
+                        <label for="name">Име на категорията: </label>
+                        <input type="text" class="form-control" id="name" th:field="*{name}" disabled/>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Изтрий</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

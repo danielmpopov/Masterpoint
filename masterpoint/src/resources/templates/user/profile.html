@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/head :: meta"></th:block>
+    <th:block th:replace="fragments/head :: style"></th:block>
+    <th:block th:replace="fragments/head :: script"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <th:block th:replace="fragments/navbar"></th:block>
+
+    <p1 sec:authorize="hasAnyRole('WORKMAN')"> Аз съм майстор</p1>
+    <p1 sec:authorize="hasAnyRole('CLIENT')"> Аз съм клиент</p1>
+
+
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+
+            <div class="jumbotron">
+                <h1 class="display-4 text-center" th:text="'Здравей ' + ${userName}"></h1>
+                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
+                    attention to featured content or information.</p>
+                <hr class="my-4">
+                <a class="btn btn-info btn-block" th:href="@{'/users/edit/'}">Промяна на профил</a>
+                <a class="btn btn-info btn-block" th:href="@{'/categories/my'}">Моите услуги</a>
+                <a class="btn btn-info btn-block" th:href="@{'/users/edit/'}">Моите обекти</a>
+                <a class="btn btn-info btn-block" th:href="@{'/users/edit/'}">Чакащи оферти
+                    <span class="badge badge-primary badge-pill">1</span>
+                </a>
+                <a class="btn btn-info btn-block" th:href="@{'/offer/add/'}">Намери оферта</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
