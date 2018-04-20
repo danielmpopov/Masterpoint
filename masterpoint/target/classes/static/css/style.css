@@ -8,3 +8,7 @@
 .form-group-rmb {
     margin-bottom: 0rem;
 }
+
+#nameHelp {
+    color: red;
+}

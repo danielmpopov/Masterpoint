@@ -41,27 +41,37 @@
                                         <th scope="col">#</th>
                                         <th scope="col">Услуга</th>
                                         <th scope="col"> Kоличество</th>
+                                        <th scope="col"> Добави</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr th:each="subCategory,iter : ${category.getSubCategories()}"
-                                        th:object="${subCategory}">
+                                        th:object="${subCategory}"
+                                        th:with="currentId=${#ids.seq('')}">
                                         <td class="align-middle" th:text="${iter.index + 1}"></td>
                                         <td class="align-middle" th:text="${subCategory.getName()}"></td>
                                         <td class="align-middle">
-                                            <div class="form-group form-group-rmb row" th:with="currentId=${#ids.seq('')}">
-                                                <div class="input-group">
+                                            <div class="form-inline"
+                                                 th:classappend="${#fields.hasErrors('${offer.tasks[__${currentId}__].quantity}')}? 'has-error'">
+                                                <div class="input-group input-group-sm">
                                                     <input type="number" class="form-control"
                                                            aria-label="Amount (to the nearest dollar)"
                                                            th:field="${offer.tasks[__${currentId}__].quantity}"/>
                                                     <div class="input-group-append">
-                                                        <span th:text="${subCategory.getCurrencyPerUnit()}" class="input-group-text"></span>
-                                                    </div>
-                                                    <div class="input-group-append">
-                                                    <input th:type="checkbox" th:field="${offer.tasks[__${currentId}__].subCategoryName}"
-                                                           th:value = "${subCategory.getName()}" />
+                                                        <span th:text="${subCategory.getCurrencyPerUnit()}"
+                                                              class="input-group-text"></span>
                                                     </div>
                                                 </div>
+                                                <small id="nameHelp"
+                                                       th:each="error : ${#fields.errors('${offer.tasks[__${currentId}__].quantity}')}"
+                                                       th:text="${error}"></small>
+                                            </div>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="form-check">
+                                                <input th:type="checkbox"
+                                                       th:field="${offer.tasks[__${currentId}__].subCategoryName}"
+                                                       th:value="${subCategory.getName()}" class="checkbox"/>
                                             </div>
                                         </td>
 
@@ -69,6 +79,7 @@
 
                                     </tbody>
                                 </table>
+
                             </div>
                         </div>
                     </div>
@@ -80,3 +91,6 @@
         </div>
     </div>
 </div>
+
+</body>
+</html>
