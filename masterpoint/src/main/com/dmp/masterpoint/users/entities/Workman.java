@@ -1,11 +1,9 @@
 package com.dmp.masterpoint.users.entities;
 
+import com.dmp.masterpoint.projects.entities.Project;
 import com.dmp.masterpoint.repairworks.entities.RepairWork;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 @Entity
@@ -17,6 +15,9 @@ public class Workman extends User {
 
     @OneToMany(mappedBy = "workman")
     private Set<RepairWork> repairWorks;
+
+    @OneToMany(mappedBy = "workman", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Project> projects;
 
     public Workman() {
     }
@@ -35,5 +36,13 @@ public class Workman extends User {
 
     public void setRepairWorks(Set<RepairWork> repairWorks) {
         this.repairWorks = repairWorks;
+    }
+
+    public Set<Project> getProjects() {
+        return projects;
+    }
+
+    public void setProjects(Set<Project> projects) {
+        this.projects = projects;
     }
 }

@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/head :: meta"></th:block>
+    <th:block th:replace="fragments/head :: style"></th:block>
+    <th:block th:replace="fragments/head :: script"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <th:block th:replace="fragments/navbar"></th:block>
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+            <div class="card text-center">
+                <div class="card-header" th:if = "${project.getIsAssigned()}" th:text="|Изпълнител: ${project.getWorkmanUsername()}|"></div>
+                <div class="card-header" th:if = "${not project.getIsAssigned()}">Изпълнител: няма нает </div>
+                <div class="card-body">
+                    <h3 class="card-title" th:text="${project.getTitle()}"></h3>
+                    <h5 class="card-subtitle mb-2 text-muted" th:text="|Локация: ${project.getCityName()}|">Град</h5>
+                    <h5 class="card-subtitle mb-2 text-muted" th:text="|Дата на започване: ${project.getStartDate()}|"></h5>
+                    <p class="card-text" th:text="${project.getDescription()}"></p>
+                    <h3>Ремонтни дейности:</h3>
+                    <h5 class="card-subtitle mb-2 text-muted"
+                        th:if = "${project.getWorkmanUsername() != null}"
+                        th:text="|Налични услуги с ${project.getWorkmanUsername()}: ${project.getNumAvailableTasks()} / ${project.getTotalTasks()}|"></h5>
+                    <table class="table table-bordered table-sm mx-2 mt-2">
+                        <thead>
+                        <tr class="table-primary">
+                            <th scope="col">#</th>
+                            <th scope="col">Услуга</th>
+                            <th scope="col">Количество</th>
+                            <th scope="col">Единична цена</th>
+                            <th scope="col">Обша цена</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr class="table-primary">
+                            <td colspan="4" class="text-right">
+                                Общо
+                            </td>
+                            <td colspan="1" class="text-centre" th:text="${#numbers.formatDecimal(project.getTotalPrice(),1,2)}">
+                            </td>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <th:block th th:each="category: ${project.getTaskDetails().entrySet()}">
+                            <tr class="table-primary">
+                                <td colspan="2" class="text-left" th:text="${category.getKey()}"></td>
+                                <td colspan="3"></td>
+                            </tr>
+                            <tr th:each="subCategory,iter : ${category.getValue()}">
+                                <td th:text="${iter.index + 1}"></td>
+                                <td th:text="${subCategory.getSubCategory()}"></td>
+                                <td th:text="${subCategory.getQuantity()}"></td>
+                                <td th:text="|${subCategory.getPricePerUnit()} ${subCategory.getCurrencyPerUnit()}|"></td>
+                                <td th:text="${#numbers.formatDecimal(subCategory.getPricePerTask(),1,2)}"></td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer text-muted">
+                    <a th:if = "${not project.getIsAssigned()} and ${project.getWorkmanUsername() == null}" th:href="@{'/projects/offers/' + ${project.getId()}}"  class="btn btn-info text-right">Намери майстор</a>
+                    <a th:if = "${not project.getIsAssigned()} and ${project.getWorkmanUsername() != null}"
+                    <a th:href="@{/projects/hire/{projectId}/{workmanUsername} (projectId = ${project.getId()}, workmanUsername = ${project.getWorkmanUsername()})}"
+                       class="btn btn-success text-right">Наеми</a>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                        Изтрий
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Итриване на проекта?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Назад</button>
+                <a th:href="@{'/projects/delete/' + ${project.getId()}}" class="btn btn-danger">Изтрии</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

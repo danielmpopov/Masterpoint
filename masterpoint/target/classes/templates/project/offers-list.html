@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/head :: meta"></th:block>
+    <th:block th:replace="fragments/head :: style"></th:block>
+    <th:block th:replace="fragments/head :: script"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <th:block th:replace="fragments/navbar"></th:block>
+    <div class="row mt-4">
+        <div class="col-md-6 offset-md-3">
+            <h1 class="text-center">Категории</h1>
+
+            <div th:each="offer : ${offers}" th:object="${offer}">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <img src="http://dummyimage.com/60x60/666/ffffff&amp;text=No+Image" class="img-rounded">
+                        <div class="review-block-name"><a href="#" th:text="${offer.getWorkmanUsername()}">nktailor</a></div>
+                        <div class="review-block-date">January 29, 2016<br>1 day ago</div>
+                    </div>
+                    <div class="col-sm-9">
+                        <div class="review-block-rate" th:with="resultPercentage = ${offer.getNumAvailableTasks() * 100.0 /offer.getTotalTasks()}">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped bg-warning" role="progressbar"  aria-valuemin="0"
+                                th:attr="aria-valuenow=${offer.getNumAvailableTasks()}, aria-valuemax=${offer.getTotalTasks()}, style='width: ' +${resultPercentage} + '%'"></div>
+                            </div>
+                        </div>
+                        <div class="review-block-description" th:text="|Извършва ${offer.getNumAvailableTasks()} / ${offer.getTotalTasks()} услуги|"></div>
+                        <div class="review-block-title" th:text="|Обща цена: ${#numbers.formatDecimal(offer.getTotalPrice(),1,2)}|">name</div>
+                        <a th:href="@{/projects/offers/details/{projectId}/{workmanUsername} (projectId = ${offer.getId()}, workmanUsername = ${offer.getWorkmanUsername()})}"  class="btn btn-info float-right">Детайли</a>
+                    </div>
+                </div>
+                <hr>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <th:block th:replace="fragments/head :: meta"></th:block>
+    <th:block th:replace="fragments/head :: style"></th:block>
+    <th:block th:replace="fragments/head :: script"></th:block>
+</head>
+<body>
+<div class="container-fluid">
+    <th:block th:replace="fragments/navbar"></th:block>
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="text-center">Моите проекти</h1>
+
+            <div class="card mb-3" th:each="project: ${projects}"
+                 th:classappend="${project.getIsAssigned()} ? border-success : border-danger">
+                <div class="card-header" th:text="| Дата на започване: ${project.getStartDate()}|">StartDate</div>
+                <div class="card-body">
+                    <h4 class="card-title" th:text="${project.getTitle()}">Success card title</h4>
+                    <p class="card-text" th:text="|Локация на проекта: ${project.getCityName()}|"></p>
+                    <p class="card-text" th:if = "${project.getIsAssigned()}" th:text="|Майстор: ${project.getWorkmanUsername()}|"></p>
+                    <p class="card-text" th:if = "${not project.getIsAssigned()}" th:text="|Майстор: няма нает|"></p>
+
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                            th:each="category: ${project.getCategories().entrySet()}">
+                            <div th:text="${category.getKey()}"></div>
+                            <span class="badge badge-primary badge-pill" th:text="|Задачи: ${category.getValue()}|">num</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-footer text-muted">
+                    <a th:href="@{'/projects/detail/' + ${project.getId()}}" class="card-link">Детайли</a>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+</div>
+</div>
+</div>
+
+<script src="/js/modal.js"></script>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.dmp.masterpoint.repairworks.entities;
 
+import com.dmp.masterpoint.projects.entities.Task;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -30,6 +31,9 @@ public class SubCategory {
 
     @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<RepairWork> repairWorks;
+
+    @OneToMany(mappedBy = "subCategory", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Task> tasks;
 
     public SubCategory() {
     }
