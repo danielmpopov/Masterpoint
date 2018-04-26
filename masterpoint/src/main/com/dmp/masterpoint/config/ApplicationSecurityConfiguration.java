@@ -1,6 +1,6 @@
 package com.dmp.masterpoint.config;
 
-import com.dmp.masterpoint.users.services.UserServiceImpl;
+import com.dmp.masterpoint.areas.users.services.UserServiceImpl;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
