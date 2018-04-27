@@ -1,6 +1,7 @@
 package com.dmp.masterpoint.areas.projects.controllers;
 
 import com.dmp.masterpoint.areas.cities.services.CityService;
+import com.dmp.masterpoint.areas.logs.annotations.Log;
 import com.dmp.masterpoint.errors.ProjectNotFoundException;
 import com.dmp.masterpoint.areas.projects.models.binding.ProjectAddBindingModel;
 import com.dmp.masterpoint.areas.projects.models.view.ProjectFullViewModel;
@@ -45,6 +46,7 @@ public class ProjectController {
     }
 
 
+    @Log
     @PostMapping("/projects/add")
     @PreAuthorize("hasAnyRole('CLIENT')")
     public ModelAndView add(@Valid @ModelAttribute("project") ProjectAddBindingModel bindingModel, BindingResult result,
@@ -126,6 +128,7 @@ public class ProjectController {
         return modelAndView;
     }
 
+    @Log
     @GetMapping("/projects/hire/{projectId}/{workmanUserName}")
     @PreAuthorize("hasAnyRole('CLIENT')")
     public ModelAndView hire (@PathVariable String projectId, @PathVariable String workmanUserName, ModelAndView modelAndView) {

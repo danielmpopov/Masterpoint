@@ -89,8 +89,8 @@
                                                            aria-label="Amount (to the nearest dollar)"
                                                            th:field="${project.tasks[__${currentId}__].quantity}"/>
                                                     <div class="input-group-append">
-                                                        <span th:text="${subCategory.getCurrencyPerUnit()}"
-                                                              class="input-group-text"></span>
+                                                        <span th:text="${#strings.arraySplit(subCategory.getCurrencyPerUnit(),'/')[1]}"
+                                                        class="input-group-text"></span>
                                                     </div>
                                                 </div>
                                                 <small id="nameHelp"

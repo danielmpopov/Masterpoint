@@ -1,5 +1,6 @@
 package com.dmp.masterpoint.areas.users.controllers;
 
+import com.dmp.masterpoint.areas.logs.annotations.Log;
 import com.dmp.masterpoint.controllers.BaseController;
 import com.dmp.masterpoint.errors.UserAlreadyLoggedInException;
 import com.dmp.masterpoint.areas.users.models.binding.RegisterBindingModel;
@@ -70,6 +71,7 @@ public class UserController extends BaseController {
         return modelAndView;
     }
 
+    @Log
     @PostMapping("/register")
     public ModelAndView registerConfirm(@Valid @ModelAttribute("user") RegisterBindingModel bindingModel,
                                         BindingResult result,
