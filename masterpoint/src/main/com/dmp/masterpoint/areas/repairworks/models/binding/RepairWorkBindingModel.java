@@ -4,12 +4,13 @@ import javax.validation.constraints.DecimalMax;
 import java.math.BigDecimal;
 
 public class RepairWorkBindingModel {
+    private static final String PRICE_PER_UNIT_ERROR = "Моля въведете цена от 0.001 до 1000";
 
     private String subCategoryId;
 
     private String workmanId;
 
-    @DecimalMax(value = "100", message = "Ne poveche ot 100")
+    @DecimalMax(value = "1000", message = PRICE_PER_UNIT_ERROR)
     private BigDecimal pricePerUnit;
 
 

@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <th:block th:replace="fragments/navbar"></th:block>
     <div class="row mt-4">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-6 offset-md-3">
             <h1 class="text-center">Добави услуга</h1>
             <form class="mt-4" th:object="${subCategory}"
                   th:action="@{'/subcategories/add/' + ${subCategory.getCategory()}}" th:method="POST">
@@ -30,7 +30,9 @@
                         </div>
                     </th:block>
                 </div>
-                <button type="submit" class="btn btn-primary">Създай</button>
+                <div class="col-md-4 offset-md-4 text-center">
+                    <button type="submit" class="btn btn-info">Създай</button>
+                </div>
             </form>
         </div>
     </div>

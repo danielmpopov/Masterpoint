@@ -11,14 +11,13 @@
     <th:block th:replace="fragments/navbar"></th:block>
     <div class="row mt-4">
         <div class="col-md-6 offset-md-3">
-            <h1 class="text-center">Категории</h1>
+            <h1 class="text-center">Предложения за майстори:</h1>
 
             <div th:each="offer : ${offers}" th:object="${offer}">
                 <div class="row">
                     <div class="col-sm-3">
-                        <img src="http://dummyimage.com/60x60/666/ffffff&amp;text=No+Image" class="img-rounded">
+                        <img src="/images/stroitel_logo.jpg">
                         <div class="review-block-name"><a href="#" th:text="${offer.getWorkmanUsername()}">nktailor</a></div>
-                        <div class="review-block-date">January 29, 2016<br>1 day ago</div>
                     </div>
                     <div class="col-sm-9">
                         <div class="review-block-rate" th:with="resultPercentage = ${offer.getNumAvailableTasks() * 100.0 /offer.getTotalTasks()}">

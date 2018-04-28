@@ -41,8 +41,8 @@ public class UserController extends BaseController {
 
         modelAndView.setViewName("user/login");
 
-        if(error != null) modelAndView.addObject("error", "Username or Password Not Correct!");
-        if(logout != null) modelAndView.addObject("logout", "You have successfuly logged out!");
+        if(error != null) modelAndView.addObject("error", "Потребителското име или паролата са грешни");
+        if(logout != null) modelAndView.addObject("logout", "Вие се разлогнахте успешно!");
 
         return modelAndView;
     }
@@ -78,15 +78,15 @@ public class UserController extends BaseController {
                                         ModelAndView modelAndView) {
 
         if (!bindingModel.getPassword().equals(bindingModel.getConfirmPassword())) {
-            result.rejectValue("confirmPassword", null, "Confirm password should be the same as password");
+            result.rejectValue("confirmPassword", null, "Моля потвърдете парлата!");
         }
 
         if (userService.findFirstByUsername(bindingModel.getUsername()) != null) {
-            result.rejectValue("username", null, "There is already a registered user with that username");
+            result.rejectValue("username", null, "Вече има регистриран потребител с това име!");
         }
 
         if (userService.findFirstByEmail(bindingModel.getEmail()) != null) {
-            result.rejectValue("email", null, "There is already a registered user with that email");
+            result.rejectValue("email", null, "Вече има регистриран потребител с този email!");
         }
 
         if (result.hasErrors()){

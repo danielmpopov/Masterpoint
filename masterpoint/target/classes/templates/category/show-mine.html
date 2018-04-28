@@ -69,7 +69,7 @@
                                                     data-unit=${subCategory.getCurrencyPerUnit()},
                                                     data-action='delete',
                                                     data-rwid=${subCategory.getRepairWorkId()},
-                                                    ">Изтрии
+                                                    data-price=${subCategory.getRepairWorkPrice()}">Изтрии
                                         </a>
                                     </td>
                                 </tr>
@@ -105,12 +105,12 @@
                                         <span class="input-group-text">.00</span>
                                     </div>
                                 </div>
-                                <p id="demo"></p>
+                                <p id="error"></p>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Назад</button>
-                            <button type="submit" class="btn btn-primary action">Добави</button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal">Назад</button>
+                            <button type="submit" id="myButton" class="btn action"></button>
                         </div>
                     </form>
                 </div>

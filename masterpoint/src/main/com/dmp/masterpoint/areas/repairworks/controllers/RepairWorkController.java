@@ -64,7 +64,6 @@ public class RepairWorkController {
                 throw new RepairWorkNotFoundException();
             }
 
-            //check if Principal name = workmanName
             modelAndView.getModel().put("repairwork", repairWorkViewModel);
         }
 

@@ -6,6 +6,7 @@ import com.dmp.masterpoint.areas.projects.models.binding.TaskAddBindingModel;
 import com.dmp.masterpoint.areas.projects.models.view.*;
 import com.dmp.masterpoint.areas.projects.repositories.ProjectRepository;
 import com.dmp.masterpoint.areas.repairworks.models.view.RepairWorkViewModel;
+import com.dmp.masterpoint.areas.users.models.view.UserViewModel;
 import com.dmp.masterpoint.areas.users.models.view.WorkmanViewModel;
 import com.dmp.masterpoint.areas.users.repositories.WorkmanRepository;
 import com.dmp.masterpoint.areas.users.services.UserService;
@@ -73,29 +74,21 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<ProjectSummaryViewModel> findMyProjects(String userName) {
+    public List<ProjectSummaryViewModel> findProjectsByClient(String userName) {
+
         List<Project> allProjects = this.repository.findAllByClient_Username(userName);
-        List<ProjectSummaryViewModel> allByClientName = new ArrayList<>();
 
-        for (Project project : allProjects) {
+        return this.mapProjects(allProjects);
 
-            ProjectSummaryViewModel projectView = this.modelMapper.map(project, ProjectSummaryViewModel.class);
+    }
 
-            Map<String, Integer> categories = new HashMap<>();
+    @Override
+    public List<ProjectSummaryViewModel> findProjectsByWorkman(String userName) {
 
-            for (TaskViewModel taskViewModel : projectView.getTasks()) {
-                String taskCategory = taskViewModel.getSubCategory().getCategoryName();
-                if (!categories.containsKey(taskCategory)) {
-                    categories.put(taskCategory, 1);
-                } else {
-                    categories.put(taskCategory, categories.get(taskCategory) + 1);
-                }
-            }
-            projectView.setCategories(categories);
-            allByClientName.add(projectView);
-        }
+        List<Project> allProjects = this.repository.findAllByWorkman_Username(userName);
 
-        return allByClientName;
+        return this.mapProjects(allProjects);
+
     }
 
     @Override
@@ -182,6 +175,29 @@ public class ProjectServiceImpl implements ProjectService {
         project.setWorkman(this.workmanRepository.findFirstByUsername(username));
 
         this.repository.saveAndFlush(project);
+    }
 
+    private List<ProjectSummaryViewModel> mapProjects(List<Project> allProjects) {
+        List<ProjectSummaryViewModel> allByClientName = new ArrayList<>();
+
+        for (Project project : allProjects) {
+
+            ProjectSummaryViewModel projectView = this.modelMapper.map(project, ProjectSummaryViewModel.class);
+
+            Map<String, Integer> categories = new HashMap<>();
+
+            for (TaskViewModel taskViewModel : projectView.getTasks()) {
+                String taskCategory = taskViewModel.getSubCategory().getCategoryName();
+                if (!categories.containsKey(taskCategory)) {
+                    categories.put(taskCategory, 1);
+                } else {
+                    categories.put(taskCategory, categories.get(taskCategory) + 1);
+                }
+            }
+            projectView.setCategories(categories);
+            allByClientName.add(projectView);
+        }
+
+        return allByClientName;
     }
 }

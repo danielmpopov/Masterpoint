@@ -61,10 +61,9 @@
                 </div>
                 <div class="card-footer text-muted">
                     <a th:if = "${not project.getIsAssigned()} and ${project.getWorkmanUsername() == null}" th:href="@{'/projects/offers/' + ${project.getId()}}"  class="btn btn-info text-right">Намери майстор</a>
-                    <a th:if = "${not project.getIsAssigned()} and ${project.getWorkmanUsername() != null}"
-                    <a th:href="@{/projects/hire/{projectId}/{workmanUsername} (projectId = ${project.getId()}, workmanUsername = ${project.getWorkmanUsername()})}"
+                    <a th:if = "${not project.getIsAssigned()} and ${project.getWorkmanUsername() != null}" th:href="@{/projects/hire/{projectId}/{workmanUsername} (projectId = ${project.getId()}, workmanUsername = ${project.getWorkmanUsername()})}"
                        class="btn btn-success text-right">Наеми</a>
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
+                    <button sec:authorize="hasAnyRole('CLIENT')" type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">
                         Изтрий
                     </button>
                 </div>

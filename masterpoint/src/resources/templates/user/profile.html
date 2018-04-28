@@ -10,24 +10,16 @@
 <div class="container-fluid">
     <th:block th:replace="fragments/navbar"></th:block>
 
-    <p1 sec:authorize="hasAnyRole('WORKMAN')"> Аз съм майстор</p1>
-    <p1 sec:authorize="hasAnyRole('CLIENT')"> Аз съм клиент</p1>
-
-
     <div class="row mt-4">
         <div class="col-md-8 offset-md-2">
 
             <div class="jumbotron">
                 <h1 class="display-4 text-center" th:text="'Здравей ' + ${userName}"></h1>
-                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
-                    attention to featured content or information.</p>
+                <h3 class="lead text-center">Бързата работа — срам за майстора</h3>
                 <hr class="my-4">
-                <a class="btn btn-info btn-block" th:href="@{'/users/edit/'}">Промяна на профил</a>
                 <a class="btn btn-info btn-block" sec:authorize="hasAnyRole('WORKMAN')" th:href="@{'/categories/my'}">Моите услуги</a>
-                <a class="btn btn-info btn-block" th:href="@{'/projects/show'}">Моите обекти</a>
-                <a class="btn btn-info btn-block" sec:authorize="hasAnyRole('WORKMAN')" th:href="@{'/users/edit/'}">Чакащи оферти
-                    <span class="badge badge-primary badge-pill">1</span>
-                </a>
+                <a class="btn btn-info btn-block" sec:authorize="hasAnyRole('CLIENT')"th:href="@{'/projects/show'}">Моите обекти</a>
+                <a class="btn btn-info btn-block" sec:authorize="hasAnyRole('WORKMAN')"th:href="@{'/projects/show-by-workman'}">Моите обекти</a>
                 <a class="btn btn-info btn-block" sec:authorize="hasAnyRole('CLIENT')" th:href="@{'/projects/add'}">Нов проект</a>
             </div>
         </div>

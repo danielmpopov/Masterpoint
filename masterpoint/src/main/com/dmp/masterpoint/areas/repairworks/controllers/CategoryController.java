@@ -52,7 +52,7 @@ public class CategoryController {
             modelAndView.setViewName("category/add");
         } else {
             this.categoryService.add(bindingModel);
-            modelAndView.setViewName("redirect:/");
+            modelAndView.setViewName("redirect:/categories/show");
         }
 
         return modelAndView;

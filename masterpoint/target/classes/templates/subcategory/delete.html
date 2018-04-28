@@ -8,7 +8,7 @@
 <div class="container-fluid">
     <th:block th:replace="fragments/navbar"></th:block>
     <div class="row mt-4">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-6 offset-md-3">
             <h1 class="text-center">Изтрии услуга</h1>
             <form class="mt-4" th:object="${subCategory}"
                   th:action="@{'/subcategories/delete/' + ${subCategory.getName()}}" th:method="POST">
@@ -18,9 +18,12 @@
                 </div>
                 <div class="form-group">
                     <label for="currencyPerUnit">Единица валута/мерна единица: </label>
-                    <input type="text" class="form-control" id="currencyPerUnit" th:field="*{currencyPerUnit}" disabled/>
+                    <input type="text" class="form-control" id="currencyPerUnit" th:field="*{currencyPerUnit}"
+                           disabled/>
                 </div>
-                <button type="submit" class="btn btn-danger">Изтрии</button>
+                <div class="col-md-4 offset-md-4 text-center">
+                    <button type="submit" class="btn btn-danger">Изтрии</button>
+                </div>
             </form>
         </div>
     </div>

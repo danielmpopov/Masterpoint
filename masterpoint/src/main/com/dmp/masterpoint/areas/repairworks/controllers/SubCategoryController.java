@@ -36,6 +36,7 @@ public class SubCategoryController {
 
 
     @PostMapping("/subcategories/add/{category}")
+    @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ModelAndView add(@Valid @ModelAttribute("subCategory") SubCategoryAddBindingModel bindingModel, BindingResult result, ModelAndView modelAndView) {
 
 
@@ -47,7 +48,7 @@ public class SubCategoryController {
             modelAndView.setViewName("subcategory/add");
         } else {
             this.subCategoryService.add(bindingModel);
-            modelAndView.setViewName("redirect:/");
+            modelAndView.setViewName("redirect:/categories/show");
         }
 
         return modelAndView;
@@ -74,11 +75,6 @@ public class SubCategoryController {
     @PreAuthorize("hasAnyRole('ADMIN','MODERATOR')")
     public ModelAndView edit(@PathVariable String name, @Valid @ModelAttribute("subCategory") SubCategoryAddBindingModel bindingModel,
                              BindingResult result, ModelAndView modelAndView) {
-
-//        if (this.subCategoryService.findByName(bindingModel.getName()) != null ) {
-//            result.rejectValue("name", null, "Вече има регистрирана услуга с това име!");
-//        }
-
         if (result.hasErrors()) {
             modelAndView.setViewName("/subcategory/edit");
         } else {

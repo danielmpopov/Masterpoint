@@ -13,6 +13,10 @@
     color: red;
 }
 
+#error {
+    color: red;
+}
+
 .item-offer {
     height:auto;
     min-height:220px;
@@ -22,4 +26,16 @@ a.list-group-item.active small {
 }
 .stars {
     margin:20px auto 1px;
+}
+
+.jumbotron {
+    margin-bottom: 0px;
+    background-image: url(../images/tuhli.jpg);
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.btn-info {
+    background-color: #6f8cba !important;
 }

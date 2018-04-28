@@ -11,19 +11,21 @@ import java.util.List;
 
 public class ProjectAddBindingModel {
 
-    private static final String  TITLE_VALIDATION_ERROR_MESSAGE = "Моля въведете име на проекта с дължина от 3 до 50 симжола";
-    private static final String  DESCRIPTION_VALIDATION_ERROR_MESSAGE = "Моля въведете описание на проекта с дължина от 3 до 255 симжола";;
+    private static final String  TITLE_EMPTY_VALIDATION_ERROR_MESSAGE= "Моля въведете име на проекта";
+    private static final String  TITLE_SIZE_VALIDATION_ERROR_MESSAGE= "Името на проекта: дължина от 3 до 50 симжола";
+    private static final String  DESCRIPTION_EMPTY_VALIDATION_ERROR_MESSAGE = "Моля въведете описание на проекта";
+    private static final String  DESCRIPTION_SIZE_VALIDATION_ERROR_MESSAGE = "Описание на проекта: дължина от 3 до 255 симжола";
     private static final String  CITY_VALIDATION_ERROR_MESSAGE = "Моля изберете град";
 
 
     private String id;
 
-    @NotEmpty(message = TITLE_VALIDATION_ERROR_MESSAGE)
-    @Size(min = 3, max = 50, message = TITLE_VALIDATION_ERROR_MESSAGE)
+    @NotEmpty(message = TITLE_EMPTY_VALIDATION_ERROR_MESSAGE)
+    @Size(min = 3, max = 50, message = TITLE_SIZE_VALIDATION_ERROR_MESSAGE)
     private String title;
 
-    @NotEmpty(message = DESCRIPTION_VALIDATION_ERROR_MESSAGE)
-    @Size(min = 3, max = 255, message = DESCRIPTION_VALIDATION_ERROR_MESSAGE)
+    @NotEmpty(message = DESCRIPTION_EMPTY_VALIDATION_ERROR_MESSAGE)
+    @Size(min = 3, max = 255, message = DESCRIPTION_SIZE_VALIDATION_ERROR_MESSAGE)
     private  String description;
 
     @NotEmpty(message = CITY_VALIDATION_ERROR_MESSAGE)

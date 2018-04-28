@@ -12,7 +12,9 @@ public interface ProjectService {
 
      Project add(ProjectAddBindingModel project, String username);
 
-     List<ProjectSummaryViewModel> findMyProjects(String userName);
+     List<ProjectSummaryViewModel> findProjectsByClient(String userName);
+
+     List<ProjectSummaryViewModel> findProjectsByWorkman(String userName);
 
      ProjectFullViewModel findById(String id, String candidateWorkmanUsername);
 

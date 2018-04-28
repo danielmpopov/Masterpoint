@@ -29,21 +29,23 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     public void postHandle(HttpServletRequest request, HttpServletResponse response,
                            Object handler, ModelAndView modelAndView) throws Exception {
 
-        HandlerMethod method = (HandlerMethod) handler;
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod method = (HandlerMethod) handler;
 
-        LogMessageDTO logMessageDTO = new LogMessageDTO();
+            LogMessageDTO logMessageDTO = new LogMessageDTO();
 
-        String action;
+            String action;
 
-        boolean isHireAction = method.hasMethodAnnotation(Log.class) && method.getMethod().getName().equals("hire");
-        boolean isRegisterAction = method.hasMethodAnnotation(Log.class) && modelAndView.getViewName().equals("redirect:/login");
-        boolean isNewProjectAction = method.hasMethodAnnotation(Log.class) && modelAndView.getViewName().equals("redirect:/");
+            boolean isHireAction = method.hasMethodAnnotation(Log.class) && method.getMethod().getName().equals("hire");
+            boolean isRegisterAction = method.hasMethodAnnotation(Log.class) && modelAndView.getViewName().equals("redirect:/login");
+            boolean isNewProjectAction = method.hasMethodAnnotation(Log.class) && modelAndView.getViewName().equals("redirect:/");
 
-        if (isHireAction || isNewProjectAction || isRegisterAction) {
+            if (isHireAction || isNewProjectAction || isRegisterAction) {
                 action = method.getMethod().getName();
                 logMessageDTO.setAction(action);
                 logMessageDTO.setDate(new Date());
                 this.logService.create(logMessageDTO);
+            }
         }
 
 

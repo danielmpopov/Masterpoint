@@ -58,7 +58,7 @@ public class ProjectController {
             modelAndView.setViewName("project/add");
         } else {
               this.projectService.add(bindingModel, principal.getName());
-            modelAndView.setViewName("redirect:/");
+            modelAndView.setViewName("redirect:/projects/show");
         }
 
         return modelAndView;
@@ -69,12 +69,20 @@ public class ProjectController {
     @PreAuthorize("hasAnyRole('CLIENT')")
     public ModelAndView show(ModelAndView modelAndView, Principal principal) {
         modelAndView.setViewName("project/list");
-        modelAndView.addObject("projects", this.projectService.findMyProjects(principal.getName()));
+        modelAndView.addObject("projects", this.projectService.findProjectsByClient(principal.getName()));
+        return modelAndView;
+    }
+
+    @GetMapping("/projects/show-by-workman")
+    @PreAuthorize("hasAnyRole('WORKMAN')")
+    public ModelAndView showByWorkman(ModelAndView modelAndView, Principal principal) {
+        modelAndView.setViewName("project/list");
+        modelAndView.addObject("projects", this.projectService.findProjectsByWorkman(principal.getName()));
         return modelAndView;
     }
 
     @GetMapping("/projects/detail/{projectId}")
-    @PreAuthorize("hasAnyRole('CLIENT')")
+    @PreAuthorize("hasAnyRole('CLIENT','WORKMAN')")
     public ModelAndView add(@PathVariable String projectId, ModelAndView modelAndView) {
 
         modelAndView.setViewName("project/details");

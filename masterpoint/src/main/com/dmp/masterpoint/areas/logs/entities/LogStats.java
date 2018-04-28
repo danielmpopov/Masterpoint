@@ -19,13 +19,13 @@ public class LogStats {
     private Date timetamp;
 
     @Column(name = "num_new_projects")
-    private int numNewProjects;
+    private Integer numNewProjects;
 
     @Column(name = "num_new_users")
-    private int numNewUsers;
+    private Integer numNewUsers;
 
     @Column(name = "num_new_hired_workman")
-    private int numNewHiredWorkmen;
+    private Integer numNewHiredWorkmen;
 
     public LogStats() {
     }
@@ -46,27 +46,27 @@ public class LogStats {
         this.timetamp = timetamp;
     }
 
-    public int getNumNewProjects() {
+    public Integer getNumNewProjects() {
         return numNewProjects;
     }
 
-    public void setNumNewProjects(int numNewProjects) {
+    public void setNumNewProjects(Integer numNewProjects) {
         this.numNewProjects = numNewProjects;
     }
 
-    public int getNumNewUsers() {
+    public Integer getNumNewUsers() {
         return numNewUsers;
     }
 
-    public void setNumNewUsers(int numNewUsers) {
+    public void setNumNewUsers(Integer numNewUsers) {
         this.numNewUsers = numNewUsers;
     }
 
-    public int getNumNewHiredWorkmen() {
+    public Integer getNumNewHiredWorkmen() {
         return numNewHiredWorkmen;
     }
 
-    public void setNumNewHiredWorkmen(int numNewHiredWorkmen) {
+    public void setNumNewHiredWorkmen(Integer numNewHiredWorkmen) {
         this.numNewHiredWorkmen = numNewHiredWorkmen;
     }
 }

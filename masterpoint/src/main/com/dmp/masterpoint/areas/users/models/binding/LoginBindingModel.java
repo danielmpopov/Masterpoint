@@ -1,6 +1,7 @@
 package com.dmp.masterpoint.areas.users.models.binding;
 
 public class LoginBindingModel {
+
     private String username;
 
     private String password;
