@@ -7,37 +7,46 @@
 <body>
 <div class="container-fluid">
     <th:block th:replace="fragments/navbar"></th:block>
-    <form th:object="${user}" th:action="@{'/user/edit/' + ${id}}" th:method="POST">
-        <h1 class="mt-4 mb-4">Are you sure you want to delete this user:</h1>
-        <div class="form-group">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Username</th>
-                    <th scope="col">Is Admin</th>
-                    <th scope="col">Is Moderator</th>
-                    <th scope="col">Is User</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:object="${user}">
-                    <td th:text="*{username}"></td>
-                    <td class="bs-checkbox ">
-                        <input data-index="0" name="btSelectItem" type="checkbox" th:field="*{isAdmin}"/>
-                    </td>
-                    <td class="bs-checkbox ">
-                        <input data-index="0" name="btSelectItem" type="checkbox" th:field="*{isModerator}"/>
-                    </td>
-                    <td class="bs-checkbox ">
-                        <input data-index="0" name="btSelectItem" type="checkbox" th:field="*{isUser}"/>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+            <form th:object="${user}" th:action="@{'/users/edit/' + ${id}}" th:method="POST">
+                <h1 class="mt-4 mb-4 text-center">Промяна на потребител?</h1>
+                <div class="form-group">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Потребителско име</th>
+                            <th scope="col">Администратор</th>
+                            <th scope="col">Модератор</th>
+                            <th scope="col">Клиент</th>
+                            <th scope="col">Майстор</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:object="${user}">
+                            <td th:text="*{username}"></td>
+                            <td class="bs-checkbox ">
+                                <input data-index="0" name="btSelectItem" type="checkbox" th:field="*{isAdmin}"/>
+                            </td>
+                            <td class="bs-checkbox ">
+                                <input data-index="0" name="btSelectItem" type="checkbox" th:field="*{isModerator}"/>
+                            </td>
+                            <td class="bs-checkbox ">
+                                <input data-index="0" name="btSelectItem" type="checkbox" th:field="*{isClient}"/>
+                            </td>
+                            <td class="bs-checkbox ">
+                                <input data-index="0" name="btSelectItem" type="checkbox" th:field="*{isWorkman}"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-4 offset-md-4 text-center">
+                    <button type="submit" class="btn btn-warning">Промени</button>
+                </div>
+            </form>
         </div>
-
-        <button type="submit" class="btn btn-primary">Edit</button>
-    </form>
+    </div>
 </div>
 </body>
 </html>

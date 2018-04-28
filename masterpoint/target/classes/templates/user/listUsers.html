@@ -8,15 +8,15 @@
 <body>
 <div class="container-fluid">
     <th:block th:replace="fragments/navbar"></th:block>
+    <div class="row mt-4">
+        <div class="col-md-8 offset-md-2">
+        <h1 class="mt-4 mb-4 text-center">Всички потребители</h1>
 
-    <div class="container">
-        <h1 class="mt-4 mb-4">All Users</h1>
-
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
+                <th scope="col">Потребителско име</th>
                 <th scope="col"></th>
                 <th scope="col"></th>
             </tr>
@@ -25,11 +25,12 @@
             <tr th:each="user,iter : ${users}" th:object="${users}">
                 <td th:text="${iter.index + 1}"></td>
                 <td th:text="${user.getUsername()}"></td>
-                <th><a class="btn btn-secondary" th:href="@{'/user/edit/' + ${user.getId()}}">Edit</a> </th>
-                <th><a class="btn btn-secondary" th:href="@{'/user/delete/' + ${user.getId()}}">Delete</a> </th>
+                <th class="text-center"><a class="btn btn-warning" th:href="@{'/users/edit/' + ${user.getId()}}">Edit</a> </th>
+                <th class="text-center"><a class="btn btn-danger" th:href="@{'/users/delete/' + ${user.getId()}}">Delete</a> </th>
             </tr>
             </tbody>
         </table>
+    </div>
     </div>
 </div>
 </body>

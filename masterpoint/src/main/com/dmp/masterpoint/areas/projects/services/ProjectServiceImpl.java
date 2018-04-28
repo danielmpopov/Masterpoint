@@ -48,9 +48,12 @@ public class ProjectServiceImpl implements ProjectService {
 
         for (WorkmanViewModel workmanView : allWorkkmen) {
             String workmanUserName = workmanView.getUsername();
-            ProjectFullViewModel workmanProjectOffer = this.findById(projectId, workmanUserName);
-            allOffers.add(workmanProjectOffer);
+            if (!workmanUserName.equals("admin")) {
+                ProjectFullViewModel workmanProjectOffer = this.findById(projectId, workmanUserName);
+                allOffers.add(workmanProjectOffer);
+            }
         }
+        Collections.sort(allOffers,Comparator.comparing(ProjectFullViewModel::getNumAvailableTasks).reversed());
 
         return allOffers;
 

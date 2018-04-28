@@ -1,18 +1,20 @@
 package com.dmp.masterpoint.areas.users.controllers;
 
 import com.dmp.masterpoint.areas.logs.annotations.Log;
+import com.dmp.masterpoint.areas.users.models.view.UserListViewModel;
+import com.dmp.masterpoint.areas.users.models.view.UserViewModel;
 import com.dmp.masterpoint.controllers.BaseController;
 import com.dmp.masterpoint.errors.UserAlreadyLoggedInException;
 import com.dmp.masterpoint.areas.users.models.binding.RegisterBindingModel;
 import com.dmp.masterpoint.areas.users.services.UserService;
+import com.dmp.masterpoint.errors.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -117,6 +119,66 @@ public class UserController extends BaseController {
         modelAndView.addObject("userName", userName);
 
         return modelAndView;
+    }
+
+    @GetMapping("/users/show")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ModelAndView show(ModelAndView modelAndView) {
+
+        modelAndView.addObject("users", this.userService.getAll());
+        modelAndView.setViewName("user/listUsers");
+        return modelAndView;
+    }
+
+    @GetMapping("/users/delete/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ModelAndView delete(@PathVariable String id, ModelAndView modelAndView) {
+        UserListViewModel userViewModel = this.userService.getById(id);
+        if (userViewModel == null) {
+            throw new UserNotFoundException();
+        }
+
+        modelAndView.addObject("id", id);
+        modelAndView.addObject("user", userViewModel);
+        modelAndView.setViewName("user/delete");
+        return modelAndView;
+    }
+
+    @PostMapping("/users/delete/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public ModelAndView deleteConfirm(@PathVariable String id, ModelAndView modelAndView) {
+        this.userService.deleteById(id);
+        modelAndView.setViewName("redirect:/users/show");
+        return modelAndView;
+    }
+
+    @GetMapping("/users/edit/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public String edit(@PathVariable String id, Model model) {
+        if (!model.containsAttribute("user")) {
+            UserListViewModel userViewModel = this.userService.getById(id);
+            if (userViewModel == null) {
+                throw new UserNotFoundException();
+            }
+            model.addAttribute("user", userViewModel);
+        }
+        model.addAttribute("id", id);
+
+        return "user/edit";
+    }
+
+    @PostMapping("users/edit/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    public String edit(@PathVariable String id,@ModelAttribute UserListViewModel bindingModel, BindingResult bindingResult, RedirectAttributes attr) {
+        if (bindingResult.hasErrors()) {
+            attr.addFlashAttribute("user", bindingModel);
+
+            return "redirect:/users/edit/" + id;
+        }
+
+        this.userService.updateUser(id, bindingModel);
+
+        return "redirect:/users/show";
     }
 
 
